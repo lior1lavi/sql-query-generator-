@@ -1,0 +1,25 @@
+{
+  "name": "sql-query-generator",
+  "version": "1.0.0",
+  "description": "SQL IN-Clause Generator Tool",
+  "main": "src/index.html",
+  "scripts": {
+    "start": "http-server src -p 3000",
+    "build": "mkdir -p dist && cp -r src/* dist/"
+  },
+  "dependencies": {
+    "@azure/msal-browser": "^4.22.1",
+    "http-server": "^14.1.1"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.0"
+  },
+  "keywords": [
+    "SQL",
+    "CSV",
+    "query generator",
+    "web tool"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}

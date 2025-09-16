@@ -1,1 +1,1 @@
-# sql-query-generator-
+# sql-query-generator
