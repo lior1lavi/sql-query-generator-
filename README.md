@@ -13,7 +13,7 @@ The SQL IN-Clause Generator is a web-based tool that helps generate SQL IN claus
 ### Setup Instructions
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/sql-query-generator-.git
+git clone https://github.com/lior1lavi/sql-query-generator-.git
 cd sql-query-generator-
 
 # Install dependencies
