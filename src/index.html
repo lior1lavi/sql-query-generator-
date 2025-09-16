@@ -1,116 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
     <title>SQL IN-Clause Generator</title>
+    <link rel="icon" href="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="./assets/styles/main.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/styles/main.css" />
 </head>
 <body class="bg-gray-100 font-inter">
-    <div class="container mx-auto p-4">
-        <h1 class="text-3xl font-bold mb-4">SQL IN-Clause Generator</h1>
-        <p class="mb-4">Easily generate SQL IN-clauses from your CSV or Excel files.</p>
-        
-        <!-- Input Source Selection -->
-        <div class="mb-4">
-            <label class="block text-sm font-medium text-gray-700">Select Input Source:</label>
-            <div class="mt-1 space-x-4">
-                <label class="inline-flex items-center">
-                    <input type="radio" name="inputSource" value="file" checked class="form-radio">
-                    <span class="ml-2">File Upload</span>
-                </label>
-                <label class="inline-flex items-center">
-                    <input type="radio" name="inputSource" value="query" class="form-radio">
-                    <span class="ml-2">Snowflake Query</span>
-                </label>
-            </div>
+<div class="container mx-auto p-6 space-y-6">
+    <h1 class="text-3xl font-bold">SQL IN-Clause Generator</h1>
+    <p>Easily generate SQL IN-clauses from your CSV or Excel files.</p>
+
+    <section id="fileUploadSection" class="space-y-4 bg-white p-4 rounded shadow">
+        <div>
+            <label class="block font-medium mb-1">Upload your CSV or Excel file:</label>
+            <input type="file" id="csvFileInput" accept=".csv,.xlsx" class="border p-2 w-full bg-white" />
         </div>
 
-        <!-- File Upload Section -->
-        <div id="fileSection" class="mb-4">
-            <label for="fileInput" class="block text-sm font-medium text-gray-700">Upload your CSV or Excel file:</label>
-            <input type="file" id="fileInput" accept=".csv,.xlsx,.xls" class="mt-1 block w-full" />
-
-            <!-- File Preview -->
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">File Preview:</label>
-                <div class="mt-2 border rounded-md overflow-auto max-h-60">
-                    <table id="previewTable" class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                            <tr id="previewHeader"></tr>
-                        </thead>
-                        <tbody id="previewBody" class="bg-white divide-y divide-gray-200">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Column Selection -->
-            <div class="mb-4">
-                <label for="columnSelect" class="block text-sm font-medium text-gray-700">Filter Column Name:</label>
-                <select id="columnSelect" class="mt-1 block w-full p-2 border rounded-md">
-                    <option value="">Select a column</option>
-                </select>
-            </div>
-
-            <!-- SQL Operator -->
-            <div class="mb-4">
-                <label for="sqlOperator" class="block text-sm font-medium text-gray-700">SQL Operator:</label>
-                <select id="sqlOperator" class="mt-1 block w-full p-2 border rounded-md">
-                    <option value="IN">IN</option>
-                    <option value="NOT IN">NOT IN</option>
-                    <option value="LIKE">LIKE</option>
-                    <option value="NOT LIKE">NOT LIKE</option>
-                </select>
-            </div>
-
-            <!-- SQL Query Input -->
-            <div class="mb-4">
-                <label for="sqlQuery" class="block text-sm font-medium text-gray-700">Your SQL Query:</label>
-                <textarea id="sqlQuery" rows="6" class="mt-1 block w-full border rounded-md" 
-                          placeholder="Enter your SQL query..."></textarea>
-            </div>
-
-            <!-- Generate Button -->
-            <button id="generateButton" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">
-                Generate Final SQL
-            </button>
-
-            <!-- Output -->
-            <div class="mt-4">
-                <label for="sqlOutput" class="block text-sm font-medium text-gray-700">Final SQL Query:</label>
-                <textarea id="sqlOutput" rows="6" class="mt-1 block w-full border rounded-md" readonly></textarea>
-            </div>
+        <div>
+            <label class="block font-medium mb-1">File Preview:</label>
+            <div id="filePreview" class="overflow-auto max-h-60 border p-2 bg-gray-50 text-sm"></div>
         </div>
 
-        <!-- Snowflake Query Section -->
-        <div id="querySection" class="mb-4 hidden">
-            <label for="sourceQuery" class="block text-sm font-medium text-gray-700">Source Query:</label>
-            <textarea id="sourceQuery" rows="4" class="mt-1 block w-full border rounded-md"
-                placeholder="SELECT column_name FROM your_table WHERE your_conditions"></textarea>
-            <button id="executeSourceQuery" class="mt-2 bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-700">
-                Execute Query
-            </button>
+        <div>
+            <label class="block font-medium mb-1">Filter Column Name:</label>
+            <select id="columnSelect" class="border p-2 w-full bg-white">
+                <option value="">Select a column</option>
+            </select>
         </div>
-    </div>
 
-    <!-- Load dependencies first -->
-    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
-    
-    <!-- Load our modules -->
-    <script type="module">
-        import { initializeApp } from './js/app.js';
-        window.addEventListener('DOMContentLoaded', () => {
-            try {
-                initializeApp();
-            } catch (error) {
-                console.error('Initialization error:', error);
-            }
-        });
-    </script>
+        <div>
+            <label class="block font-medium mb-1">SQL Operator:</label>
+            <select id="sqlOperator" class="border p-2 w-full bg-white">
+                <option value="IN">IN</option>
+                <option value="NOT IN">NOT IN</option>
+                <option value="LIKE">LIKE</option>
+                <option value="NOT LIKE">NOT LIKE</option>
+            </select>
+        </div>
+
+        <div>
+            <label class="block font-medium mb-1">Your SQL Query:</label>
+            <textarea id="sqlQuery" class="w-full p-2 border rounded" rows="4" placeholder="Enter your SQL query"></textarea>
+        </div>
+
+        <button id="generateButton" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+            Generate Final SQL
+        </button>
+
+        <div>
+            <label class="block font-medium mb-1">Final SQL Query:</label>
+            <textarea id="finalSql" class="w-full p-2 border rounded" rows="4" readonly></textarea>
+        </div>
+    </section>
+</div>
+
+<script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+<script type="module" src="js/app.js"></script>
 </body>
 </html>

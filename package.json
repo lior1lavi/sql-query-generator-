@@ -2,16 +2,24 @@
   "name": "sql-query-generator",
   "version": "1.0.0",
   "description": "SQL IN-Clause Generator Tool",
+  "type": "module",
   "main": "src/index.html",
   "scripts": {
     "start": "http-server src -p 3000",
+    "server": "node server/snowflakeApi.js",
+    "dev": "concurrently \"npm run server\" \"npm run start\"",
     "build": "mkdir -p dist && cp -r src/* dist/"
   },
   "dependencies": {
     "@azure/msal-browser": "^4.22.1",
-    "http-server": "^14.1.1"
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "http-server": "^14.1.1",
+    "snowflake-sdk": "^2.2.0"
   },
   "devDependencies": {
+    "concurrently": "^9.2.1",
     "live-server": "^1.2.0"
   },
   "keywords": [
